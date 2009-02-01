@@ -24,6 +24,7 @@ import java.awt.GridLayout;
 import jus.aoo.geometrie.DrawingSpace;
 import jus.aoo.geometrie.Figure;
 import jus.aoo.geometrie._NewFigure;
+import jus.util.geometrie.Point;
 
 /**
  * Applet proposant une Interface utilisateur pour la manipulation
@@ -588,6 +589,7 @@ public class TurtleTrip extends JApplet {
                 newFigure = new NewObstacle();
                 newFigure.setGeometrie(turtleArea);
                 newFigure.newPoint(new jus.util.geometrie.Point(jus.util.geometrie.Point.CARTESIEN, positionMouseInGeometrie.getX(), positionMouseInGeometrie.getY()));
+                
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -601,6 +603,9 @@ public class TurtleTrip extends JApplet {
             if (newFigure.isComplete()) {
                 turtleArea.addPermanent(newFigure.newFigure());
                 turtleArea.clearTemporaire();
+                
+                Turtle.env.addObstacle((Obstacle)newFigure.newFigure());
+                
                 newFigure = null;
             }
         }
