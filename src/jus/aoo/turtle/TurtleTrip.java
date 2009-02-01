@@ -589,7 +589,7 @@ public class TurtleTrip extends JApplet {
     /** le point de s�lection */
     private java.awt.Point positionMouseInGeometrie;
 
-    private void geometrieMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_geometrieMouseMoved
+    private void geometrieMouseMoved(java.awt.event.MouseEvent evt) {
         try {
             java.awt.geom.Point2D p = evt.getPoint();
             for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
@@ -610,9 +610,9 @@ public class TurtleTrip extends JApplet {
         } catch (Exception x) {
             JOptionPane.showMessageDialog(null, x);
         }
-    }//GEN-LAST:event_geometrieMouseMoved
+    }
 
-    private void geometrieMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_geometrieMousePressed
+    private void geometrieMousePressed(java.awt.event.MouseEvent evt) {
         try {
             java.awt.geom.Point2D p = evt.getPoint();
             for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
@@ -644,6 +644,5 @@ public class TurtleTrip extends JApplet {
                 newFigure = null;
             }
         }
-    }//GEN-LAST:event_geometrieMousePressed
-}  //  @jve:decl-index=0:visual-constraint="10,10"
-
+    }
+}
