@@ -102,6 +102,24 @@ public class Turtle {
         }
     }
 
+    public void allerA(int x, int y) {
+        if (2 * Math.abs(x) > feuille.getWidth() ||
+                2 * Math.abs(y) > feuille.getHeight()) {
+            throw new AssertionError("Out of screen move!");
+        } else {
+            Point ancienne_position = new Point(position);
+            Point future_position = new Point(Point.CARTESIEN, x, y);
+            Vecteur v = new Vecteur(ancienne_position, future_position);
+            position.translation(v);
+            image.translation(v);
+            if (!estLeve) {
+                feuille.add(new Segment(ancienne_position, future_position));
+            } else {
+                feuille.repaint();
+            }
+        }
+    }
+
     /**
      * Fait tourner la � droite d'un angle a
      * @param a l'angle de rotation en degr�

@@ -64,8 +64,8 @@ public class TurtleTrip extends JApplet {
     private JButton reculer = null;
     private JButton droite = null;
     private JButton gauche = null;
-    private JButton allera = null;
-    private JButton tournervers = null;
+    private JButton allerA = null;
+    private JButton tournerVers = null;
     private JButton quit = null;
     private JButton clear = null;
     private JPanel jPanel = null;
@@ -197,26 +197,27 @@ public class TurtleTrip extends JApplet {
         return avancer;
     }
 
-    private JButton getAllera() {
-        if (allera == null) {
-            allera = new JButton();
-            allera.setText("AllerA");
-            allera.addActionListener(new java.awt.event.ActionListener() {
+    private JButton getAllerA() {
+        if (allerA == null) {
+            allerA = new JButton();
+            allerA.setText("AllerA");
+            allerA.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet.");
+                    System.out.println("" + abscisse.getValue() + ":" + ordonnee.getValue());
+                    turtle.allerA(abscisse.getValue(), ordonnee.getValue());
                 }
             });
         }
 
-        return allera;
+        return allerA;
     }
 
-    private JButton getTournervers() {
-        if (tournervers == null) {
-            tournervers = new JButton();
-            tournervers.setText("TournerVers");
-            tournervers.addActionListener(new java.awt.event.ActionListener() {
+    private JButton getTournerVers() {
+        if (tournerVers == null) {
+            tournerVers = new JButton();
+            tournerVers.setText("TournerVers");
+            tournerVers.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
                     turtle.tournerVers(rotation.getValue());
@@ -224,7 +225,7 @@ public class TurtleTrip extends JApplet {
             });
         }
 
-        return tournervers;
+        return tournerVers;
     }
 
     /**
@@ -331,8 +332,8 @@ public class TurtleTrip extends JApplet {
             jPanel.add(getReculer(), null);
             jPanel.add(getDroite(), null);
             jPanel.add(getGauche(), null);
-            jPanel.add(getAllera(), null);
-            jPanel.add(getTournervers(), null);
+            jPanel.add(getAllerA(), null);
+            jPanel.add(getTournerVers(), null);
             jPanel.add(getPlume(), null);
         }
         return jPanel;
