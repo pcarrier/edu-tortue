@@ -128,6 +128,14 @@ public class Turtle {
         feuille.repaint();
     }
 
+    public void changerAngle(int a) {
+        System.out.println(cap.argument());
+        double r = (double) a - Math.toDegrees(cap.argument());
+        cap.rotation(r);
+        image.rotation(r);
+        feuille.repaint();
+    }
+
     /**
      * L�ve la plume
      * @ensure PlumeLev�e : estLeve()
@@ -148,6 +156,7 @@ public class Turtle {
      * Restitue la repr�sentation textuelle de la tortue
      * @return	la chaine
      */
+    @Override
     public String toString() {
         return "Tortue[" + position + "," + cap + "]";
     }

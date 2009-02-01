@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Window;
 
+import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -64,6 +65,8 @@ public class TurtleTrip extends JApplet {
     private JButton reculer = null;
     private JButton droite = null;
     private JButton gauche = null;
+    private JButton allera = null;
+    private JButton tournervers = null;
     private JButton quit = null;
     private JButton clear = null;
     private JPanel jPanel = null;
@@ -98,6 +101,7 @@ public class TurtleTrip extends JApplet {
     /**
      * This method initializes this
      */
+    @Override
     public void init() {
         this.setSize(674, 440);
         buildUI(this.getContentPane(), null);
@@ -160,12 +164,14 @@ public class TurtleTrip extends JApplet {
             turtleArea.setPreferredSize(new java.awt.Dimension(650, 400));
             turtleArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
 
+                @Override
                 public void mouseMoved(java.awt.event.MouseEvent e) {
                     geometrieMouseMoved(e);
                 }
             });
             turtleArea.addMouseListener(new java.awt.event.MouseAdapter() {
 
+                @Override
                 public void mousePressed(java.awt.event.MouseEvent e) {
                     geometrieMousePressed(e);
                 }
@@ -190,6 +196,36 @@ public class TurtleTrip extends JApplet {
             });
         }
         return avancer;
+    }
+
+    private JButton getAllera() {
+        if (allera == null) {
+            allera = new JButton();
+            allera.setText("AllerA");
+            allera.addActionListener(new java.awt.event.ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+            });
+        }
+
+        return allera;
+    }
+
+    private JButton getTournervers() {
+        if (tournervers == null) {
+            tournervers = new JButton();
+            tournervers.setText("TournerVers");
+            tournervers.addActionListener(new java.awt.event.ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    turtle.changerAngle(rotation.getValue());
+                }
+            });
+        }
+
+        return tournervers;
     }
 
     /**
@@ -296,6 +332,8 @@ public class TurtleTrip extends JApplet {
             jPanel.add(getReculer(), null);
             jPanel.add(getDroite(), null);
             jPanel.add(getGauche(), null);
+            jPanel.add(getAllera(), null);
+            jPanel.add(getTournervers(), null);
             jPanel.add(getPlume(), null);
         }
         return jPanel;
@@ -440,6 +478,7 @@ public class TurtleTrip extends JApplet {
             jPanel5.add(getTurtleArea(), null);
             jPanel5.addComponentListener(new java.awt.event.ComponentAdapter() {
 
+                @Override
                 public void componentResized(java.awt.event.ComponentEvent e) {
                 }
             });
@@ -531,6 +570,7 @@ public class TurtleTrip extends JApplet {
         JFrame f = new JFrame("TurtleTrip");
         f.addWindowListener(new WindowAdapter() {
 
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
@@ -550,7 +590,7 @@ public class TurtleTrip extends JApplet {
     /** le point de s�lection */
     private java.awt.Point positionMouseInGeometrie;
 
-    private void geometrieMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_geometrieMouseMoved
+    private void geometrieMouseMoved(java.awt.event.MouseEvent evt) {
         try {
             java.awt.geom.Point2D p = evt.getPoint();
             for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
@@ -571,9 +611,9 @@ public class TurtleTrip extends JApplet {
         } catch (Exception x) {
             JOptionPane.showMessageDialog(null, x);
         }
-    }//GEN-LAST:event_geometrieMouseMoved
+    }
 
-    private void geometrieMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_geometrieMousePressed
+    private void geometrieMousePressed(java.awt.event.MouseEvent evt) {
         try {
             java.awt.geom.Point2D p = evt.getPoint();
             for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
@@ -609,6 +649,5 @@ public class TurtleTrip extends JApplet {
                 newFigure = null;
             }
         }
-    }//GEN-LAST:event_geometrieMousePressed
-}  //  @jve:decl-index=0:visual-constraint="10,10"
-
+    }
+}
