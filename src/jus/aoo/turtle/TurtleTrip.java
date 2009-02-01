@@ -8,6 +8,8 @@ import java.awt.Container;
 import java.awt.Window;
 
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,7 +27,6 @@ import java.awt.GridLayout;
 import jus.aoo.geometrie.DrawingSpace;
 import jus.aoo.geometrie.Figure;
 import jus.aoo.geometrie._NewFigure;
-import jus.util.geometrie.Point;
 
 /**
  * Applet proposant une Interface utilisateur pour la manipulation
@@ -191,7 +192,11 @@ public class TurtleTrip extends JApplet {
             avancer.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                    turtle.avancer(distance.getValue());
+                    try {
+                        turtle.avancer(distance.getValue());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex);
+                    }
                 }
             });
         }
@@ -205,8 +210,11 @@ public class TurtleTrip extends JApplet {
             allerA.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("" + abscisse.getValue() + ":" + ordonnee.getValue());
-                    turtle.allerA(abscisse.getValue(), ordonnee.getValue());
+                    try {
+                        turtle.allerA(abscisse.getValue(), ordonnee.getValue());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex);
+                    }
                 }
             });
         }
@@ -240,7 +248,11 @@ public class TurtleTrip extends JApplet {
             reculer.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                    turtle.reculer(distance.getValue());
+                    try {
+                        turtle.reculer(distance.getValue());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex);
+                    }
                 }
             });
         }
