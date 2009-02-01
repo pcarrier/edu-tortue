@@ -35,19 +35,6 @@ is divided into following sections:
         <property file="nbproject/private/configs/${config}.properties"/>
         <property file="nbproject/private/private.properties"/>
     </target>
-    <target depends="-pre-init,-init-private" name="-init-libraries">
-        <dirname file="${libraries.1.path}" property="libraries.1.dir.nativedirsep"/>
-        <pathconvert dirsep="/" property="libraries.1.dir">
-            <path path="${libraries.1.dir.nativedirsep}"/>
-        </pathconvert>
-        <basename file="${libraries.1.path}" property="libraries.1.basename" suffix=".properties"/>
-        <touch file="${libraries.1.dir}/${libraries.1.basename}-private.properties"/>
-        <loadproperties srcfile="${libraries.1.dir}/${libraries.1.basename}-private.properties">
-            <filterchain>
-                <replacestring from="$${base}" to="${libraries.1.dir}"/>
-            </filterchain>
-        </loadproperties>
-    </target>
     <target depends="-pre-init,-init-private,-init-libraries" name="-init-user">
         <property file="${user.properties.file}"/>
         <!-- The two properties below are usually overridden -->
