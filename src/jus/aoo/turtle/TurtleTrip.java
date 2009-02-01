@@ -204,7 +204,7 @@ public class TurtleTrip extends JApplet {
             allera.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    
+                    throw new UnsupportedOperationException("Not supported yet.");
                 }
             });
         }
@@ -219,7 +219,7 @@ public class TurtleTrip extends JApplet {
             tournervers.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    
+                    throw new UnsupportedOperationException("Not supported yet.");
                 }
             });
         }
