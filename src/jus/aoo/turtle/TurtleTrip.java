@@ -510,8 +510,8 @@ public class TurtleTrip extends JApplet {
     private JSlider getAbscisse() {
         if (abscisse == null) {
             abscisse = new JSlider();
-            abscisse.setMinimum(0);
-            abscisse.setMaximum(650);
+            abscisse.setMinimum(-325);
+            abscisse.setMaximum(325);
             abscisse.addChangeListener(new javax.swing.event.ChangeListener() {
 
                 public void stateChanged(javax.swing.event.ChangeEvent e) {
@@ -547,8 +547,8 @@ public class TurtleTrip extends JApplet {
     private JSlider getOrdonnee() {
         if (ordonnee == null) {
             ordonnee = new JSlider();
-            ordonnee.setMinimum(0);
-            ordonnee.setMaximum(400);
+            ordonnee.setMinimum(-200);
+            ordonnee.setMaximum(200);
             ordonnee.addChangeListener(new javax.swing.event.ChangeListener() {
 
                 public void stateChanged(javax.swing.event.ChangeEvent e) {
