@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Window;
 
+import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -63,6 +64,8 @@ public class TurtleTrip extends JApplet {
     private JButton reculer = null;
     private JButton droite = null;
     private JButton gauche = null;
+    private JButton allera = null;
+    private JButton tournervers = null;
     private JButton quit = null;
     private JButton clear = null;
     private JPanel jPanel = null;
@@ -191,6 +194,36 @@ public class TurtleTrip extends JApplet {
         return avancer;
     }
 
+    private JButton getAllera() {
+        if (allera == null) {
+            allera = new JButton();
+            allera.setText("AllerA");
+            allera.addActionListener(new java.awt.event.ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    
+                }
+            });
+        }
+
+        return allera;
+    }
+
+    private JButton getTournervers() {
+        if (tournervers == null) {
+            tournervers = new JButton();
+            tournervers.setText("TournerVers");
+            tournervers.addActionListener(new java.awt.event.ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    
+                }
+            });
+        }
+
+        return tournervers;
+    }
+
     /**
      * This method initializes reculer
      * @return javax.swing.JButton
@@ -295,6 +328,8 @@ public class TurtleTrip extends JApplet {
             jPanel.add(getReculer(), null);
             jPanel.add(getDroite(), null);
             jPanel.add(getGauche(), null);
+            jPanel.add(getAllera(), null);
+            jPanel.add(getTournervers(), null);
             jPanel.add(getPlume(), null);
         }
         return jPanel;
