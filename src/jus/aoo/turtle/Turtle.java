@@ -61,11 +61,17 @@ public class Turtle {
         Vecteur v = new Vecteur(cap);
         v.homothetie(d);
         position.translation(v);
-        image.translation(v);
-        if (!estLeve) {
-            feuille.add(new Segment(_position, position));
+        if (2 * Math.abs(position.abscisse()) > feuille.getWidth() ||
+                2 * Math.abs(position.ordonnee()) > feuille.getHeight()) {
+            position = _position;
+            throw new AssertionError("Out of screen move!");
         } else {
-            feuille.repaint();
+            image.translation(v);
+            if (!estLeve) {
+                feuille.add(new Segment(_position, position));
+            } else {
+                feuille.repaint();
+            }
         }
     }
 
@@ -82,11 +88,17 @@ public class Turtle {
         Vecteur v = cap.oppose();
         v.homothetie(d);
         position.translation(v);
-        image.translation(v);
-        if (!estLeve) {
-            feuille.add(new Segment(_position, position));
+        if (2 * Math.abs(position.abscisse()) > feuille.getWidth() ||
+                2 * Math.abs(position.ordonnee()) > feuille.getHeight()) {
+            position = _position;
+            throw new AssertionError("Out of screen move!");
         } else {
-            feuille.repaint();
+            image.translation(v);
+            if (!estLeve) {
+                feuille.add(new Segment(_position, position));
+            } else {
+                feuille.repaint();
+            }
         }
     }
 
