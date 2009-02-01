@@ -219,7 +219,7 @@ public class TurtleTrip extends JApplet {
             tournervers.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    turtle.changerAngle(rotation.getValue());
+                    turtle.tournerVers(rotation.getValue());
                 }
             });
         }

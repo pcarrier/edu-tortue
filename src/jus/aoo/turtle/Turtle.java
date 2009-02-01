@@ -126,7 +126,7 @@ public class Turtle {
         feuille.repaint();
     }
 
-    public void changerAngle(int a) {
+    public void tournerVers(int a) {
         System.out.println(cap.argument());
         double r = (double) a - Math.toDegrees(cap.argument());
         cap.rotation(r);
