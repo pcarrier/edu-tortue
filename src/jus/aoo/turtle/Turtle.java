@@ -146,6 +146,7 @@ public class Turtle {
      * Restitue la repr�sentation textuelle de la tortue
      * @return	la chaine
      */
+    @Override
     public String toString() {
         return "Tortue[" + position + "," + cap + "]";
     }

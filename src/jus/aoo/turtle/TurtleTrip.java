@@ -100,6 +100,7 @@ public class TurtleTrip extends JApplet {
     /**
      * This method initializes this
      */
+    @Override
     public void init() {
         this.setSize(674, 440);
         buildUI(this.getContentPane(), null);
@@ -162,12 +163,14 @@ public class TurtleTrip extends JApplet {
             turtleArea.setPreferredSize(new java.awt.Dimension(650, 400));
             turtleArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
 
+                @Override
                 public void mouseMoved(java.awt.event.MouseEvent e) {
                     geometrieMouseMoved(e);
                 }
             });
             turtleArea.addMouseListener(new java.awt.event.MouseAdapter() {
 
+                @Override
                 public void mousePressed(java.awt.event.MouseEvent e) {
                     geometrieMousePressed(e);
                 }
@@ -474,6 +477,7 @@ public class TurtleTrip extends JApplet {
             jPanel5.add(getTurtleArea(), null);
             jPanel5.addComponentListener(new java.awt.event.ComponentAdapter() {
 
+                @Override
                 public void componentResized(java.awt.event.ComponentEvent e) {
                 }
             });
@@ -565,6 +569,7 @@ public class TurtleTrip extends JApplet {
         JFrame f = new JFrame("TurtleTrip");
         f.addWindowListener(new WindowAdapter() {
 
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
