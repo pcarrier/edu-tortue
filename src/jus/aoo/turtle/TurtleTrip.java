@@ -25,6 +25,7 @@ import java.awt.GridLayout;
 import jus.aoo.geometrie.DrawingSpace;
 import jus.aoo.geometrie.Figure;
 import jus.aoo.geometrie._NewFigure;
+import jus.util.geometrie.Point;
 
 /**
  * Applet proposant une Interface utilisateur pour la manipulation
@@ -614,35 +615,45 @@ public class TurtleTrip extends JApplet {
     }
 
     private void geometrieMousePressed(java.awt.event.MouseEvent evt) {
-        try {
-            java.awt.geom.Point2D p = evt.getPoint();
-            for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
-                p = t.transform(p, null);
-            }
-            positionMouseInGeometrie = new java.awt.Point((int) p.getX(), (int) p.getY());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-            return;
-        }
-        if (newFigure == null) {
+        //Si on n'a pas atteint la limite défini par l'environnement.
+        if (Turtle.env.getNbObstacles() < Environnement.nbMaxObstacle) {
             try {
-                newFigure = new NewObstacle();
-                newFigure.setGeometrie(turtleArea);
-                newFigure.newPoint(new jus.util.geometrie.Point(jus.util.geometrie.Point.CARTESIEN, positionMouseInGeometrie.getX(), positionMouseInGeometrie.getY()));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            try {
-                newFigure.newPoint(new jus.util.geometrie.Point(jus.util.geometrie.Point.CARTESIEN, positionMouseInGeometrie.getX(), positionMouseInGeometrie.getY()));
+                java.awt.geom.Point2D p = evt.getPoint();
+                for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
+                    p = t.transform(p, null);
+                }
+                positionMouseInGeometrie = new java.awt.Point((int) p.getX(), (int) p.getY());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
                 return;
             }
-            if (newFigure.isComplete()) {
-                turtleArea.addPermanent(newFigure.newFigure());
-                turtleArea.clearTemporaire();
-                newFigure = null;
+            if (newFigure == null) {
+                try {
+                    newFigure = new NewObstacle();
+                    newFigure.setGeometrie(turtleArea);
+                    newFigure.newPoint(new jus.util.geometrie.Point(jus.util.geometrie.Point.CARTESIEN, positionMouseInGeometrie.getX(), positionMouseInGeometrie.getY()));
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                try {
+                    newFigure.newPoint(new jus.util.geometrie.Point(jus.util.geometrie.Point.CARTESIEN, positionMouseInGeometrie.getX(), positionMouseInGeometrie.getY()));
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                    return;
+                }
+                if (newFigure.isComplete()) {
+
+
+
+                    turtleArea.addPermanent(newFigure.newFigure());
+                    Turtle.env.addObstacle((Obstacle) newFigure.newFigure());
+
+
+                    turtleArea.clearTemporaire();
+                    newFigure = null;
+                }
             }
         }
     }

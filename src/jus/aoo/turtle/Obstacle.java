@@ -26,6 +26,7 @@ public class Obstacle extends Figure {
      * @param p2 l'autre extr�mit� de la diagonale
      */
     public Obstacle(Point p1, Point p2) {
+        System.out.println("Obstacle build");
         this.p1 = new Point(Point.CARTESIEN, Math.min((int) p1.abscisse(), (int) p2.abscisse()), Math.min((int) p1.ordonnee(), (int) p2.ordonnee()));
         width = Math.max((int) p1.abscisse(), (int) p2.abscisse()) - Math.min((int) p1.abscisse(), (int) p2.abscisse());
         height = Math.max((int) p1.ordonnee(), (int) p2.ordonnee()) - Math.min((int) p1.ordonnee(), (int) p2.ordonnee());
