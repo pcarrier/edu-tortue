@@ -19,7 +19,7 @@ import jus.util.assertion.*;
  */
 public class Turtle {
 
-    public static Environnement env=new Environnement(); //Environnement des instances de tortues (obstacles, ...)
+    protected Environnement env=new Environnement(); //Environnement des instances de tortues (obstacles, ...)
 
     protected DrawingSpace feuille; // l'espace de d�placement de la tortue
     protected static final String imageFile = "/jus/aoo/turtle/Turtle.gif"; //le nom de l'image mat�rialisant la tortue.
@@ -50,6 +50,16 @@ public class Turtle {
         feuille.addPermanent(image);
     }
 
+    public Turtle(DrawingSpace feuille, Environnement env) {
+        this(feuille);
+        this.env=env;
+    }
+
+    
+    public Environnement getEnvironnement(){
+        return this.env;
+    }
+    
     /**
      * Fait avancer la tortue de d pas
      * @param d la distance � parcourir
@@ -68,6 +78,9 @@ public class Turtle {
             position = _position;
             throw new AssertionError("Out of screen move!");
         } else {
+
+
+            //((Obstacle)(env.getObstacles().get(0))
             image.translation(v);
             if (!estLeve) {
                 feuille.add(new Segment(_position, position));
@@ -75,6 +88,8 @@ public class Turtle {
                 feuille.repaint();
             }
         }
+
+        System.out.println("Nombre d'obstacles : "+this.env.getNbObstacles());
     }
 
     /**

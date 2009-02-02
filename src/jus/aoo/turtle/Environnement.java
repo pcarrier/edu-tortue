@@ -14,7 +14,7 @@ import jus.util.assertion.Require;
  */
 public class Environnement {
 
-    public static int nbMaxObstacle=10;
+    public static int nbMaxObstacle=2;
     private ArrayList<Obstacle> obstacles;
 
     public Environnement(){
@@ -24,12 +24,12 @@ public class Environnement {
     /*
      * @require NbMaxObstaclesNonAteint : this.obstacles.size() < Environnement.nbMaxObstacle
      */
-    public void addObstacle(Obstacle ob){
+    public void addObstacle(Obstacle ob) throws Exception{
 
         if(this.obstacles.size()<nbMaxObstacle){
             this.obstacles.add(ob);
         }else{
-            throw new Require("Nombre max d'obstacle atteint ("+nbMaxObstacle+")");
+            throw new Exception("Nombre max d'obstacle atteint ("+nbMaxObstacle+")");
         }
     }
 

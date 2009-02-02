@@ -91,11 +91,14 @@ public class TurtleTrip extends JApplet {
     private JSlider ordonnee = null;
     private JLabel valueOrdonnee = null;
 
+    private Environnement environnement=null;
+
     /**
      * This is the default constructor
      */
     public TurtleTrip() {
         super();
+        this.environnement=new Environnement();
     }
 
     /**
@@ -120,7 +123,7 @@ public class TurtleTrip extends JApplet {
         if (f != null) {
             f.pack();
         }
-        turtle = new Turtle(turtleArea);
+        turtle = new Turtle(turtleArea, this.environnement);
     }
 
     /**
@@ -615,7 +618,7 @@ public class TurtleTrip extends JApplet {
 
     private void geometrieMousePressed(java.awt.event.MouseEvent evt) {
         //Si on n'a pas atteint la limite défini par l'environnement.
-        if (Turtle.env.getNbObstacles() < Environnement.nbMaxObstacle) {
+        if (this.environnement.getNbObstacles() < Environnement.nbMaxObstacle) {
             try {
                 java.awt.geom.Point2D p = evt.getPoint();
                 for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
@@ -644,16 +647,19 @@ public class TurtleTrip extends JApplet {
                 }
                 if (newFigure.isComplete()) {
 
-
-
+                    try{
                     turtleArea.addPermanent(newFigure.newFigure());
-                    Turtle.env.addObstacle((Obstacle) newFigure.newFigure());
+                    this.environnement.addObstacle((Obstacle) newFigure.newFigure());
+                    } catch (Exception e) { //May never happens
+                        JOptionPane.showMessageDialog(null, e);
+                    }finally{
+                        turtleArea.clearTemporaire();
+                        newFigure = null;
 
+                    }
 
-                    turtleArea.clearTemporaire();
-                    newFigure = null;
                 }
             }
-        }
+       }
     }
 }
