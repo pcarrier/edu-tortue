@@ -142,4 +142,6 @@ public class Obstacle extends Figure {
     public java.awt.Rectangle cadre() {
         return new java.awt.Rectangle((int) p1.abscisse(), (int) p1.ordonnee(), width, height);
     }
+
+    
 }

@@ -78,9 +78,14 @@ public class Turtle {
             throw new Exception("Out of screen move!");
         } else {
 
-
-            //((Obstacle)(env.getObstacles().get(0))
-            image.translation(v);
+            if (!this.env.hasCollision(_position, position))
+            {
+                image.translation(v);
+            }else{
+                position = _position;
+                throw new Exception("OOOBstaaaaaaaacle !!");
+            }
+            
             if (!estLeve) {
                 feuille.add(new Segment(_position, position));
             } else {
