@@ -20,7 +20,6 @@ import jus.util.assertion.*;
 public class Turtle {
 
     protected Environnement env=new Environnement(); //Environnement des instances de tortues (obstacles, ...)
-
     protected DrawingSpace feuille; // l'espace de d�placement de la tortue
     protected static final String imageFile = "/jus/aoo/turtle/Turtle.gif"; //le nom de l'image mat�rialisant la tortue.
     protected Image image;			//l'image de la tortue
@@ -68,7 +67,7 @@ public class Turtle {
      * @ensure DeplacementOk : new Vecteur(_position(),position()).module()-d < Vecteur.EPSILON
      * @ensure capOk : new Vecteur(_position(),position()).colineaire(cap())
      */
-    public void avancer(int d) {
+    public void avancer(int d) throws Exception {
         Point _position = new Point(position);
         Vecteur v = new Vecteur(cap);
         v.homothetie(d);
@@ -76,7 +75,7 @@ public class Turtle {
         if (2 * Math.abs(position.abscisse()) > feuille.getWidth() ||
                 2 * Math.abs(position.ordonnee()) > feuille.getHeight()) {
             position = _position;
-            throw new AssertionError("Out of screen move!");
+            throw new Exception("Out of screen move!");
         } else {
 
 
@@ -100,7 +99,7 @@ public class Turtle {
      * @ensure DeplacementOk : new Vecteur(_position(),position()).module()-d < Vecteur.EPSILON
      * @ensure capOk : new Vecteur(_position(),position()).colineaire(cap())
      */
-    public void reculer(int d) {
+    public void reculer(int d) throws Exception {
         Point _position = new Point(position);
         Vecteur v = cap.oppose();
         v.homothetie(d);
@@ -108,11 +107,29 @@ public class Turtle {
         if (2 * Math.abs(position.abscisse()) > feuille.getWidth() ||
                 2 * Math.abs(position.ordonnee()) > feuille.getHeight()) {
             position = _position;
-            throw new AssertionError("Out of screen move!");
+            throw new Exception("Out of screen move!");
         } else {
             image.translation(v);
             if (!estLeve) {
                 feuille.add(new Segment(_position, position));
+            } else {
+                feuille.repaint();
+            }
+        }
+    }
+
+    public void allerA(int x, int y) throws Exception {
+        if (2 * Math.abs(x) > feuille.getWidth() ||
+                2 * Math.abs(y) > feuille.getHeight()) {
+            throw new Exception("Out of screen move!");
+        } else {
+            Point ancienne_position = new Point(position);
+            Point future_position = new Point(Point.CARTESIEN, x, y);
+            Vecteur v = new Vecteur(ancienne_position, future_position);
+            position.translation(v);
+            image.translation(v);
+            if (!estLeve) {
+                feuille.add(new Segment(ancienne_position, future_position));
             } else {
                 feuille.repaint();
             }
@@ -143,7 +160,7 @@ public class Turtle {
         feuille.repaint();
     }
 
-    public void changerAngle(int a) {
+    public void tournerVers(int a) {
         System.out.println(cap.argument());
         double r = (double) a - Math.toDegrees(cap.argument());
         cap.rotation(r);

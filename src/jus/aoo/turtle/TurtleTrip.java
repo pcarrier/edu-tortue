@@ -8,6 +8,8 @@ import java.awt.Container;
 import java.awt.Window;
 
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,7 +27,6 @@ import java.awt.GridLayout;
 import jus.aoo.geometrie.DrawingSpace;
 import jus.aoo.geometrie.Figure;
 import jus.aoo.geometrie._NewFigure;
-import jus.util.geometrie.Point;
 
 /**
  * Applet proposant une Interface utilisateur pour la manipulation
@@ -65,8 +66,8 @@ public class TurtleTrip extends JApplet {
     private JButton reculer = null;
     private JButton droite = null;
     private JButton gauche = null;
-    private JButton allera = null;
-    private JButton tournervers = null;
+    private JButton allerA = null;
+    private JButton tournerVers = null;
     private JButton quit = null;
     private JButton clear = null;
     private JPanel jPanel = null;
@@ -194,41 +195,49 @@ public class TurtleTrip extends JApplet {
             avancer.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                    turtle.avancer(distance.getValue());
+                    try {
+                        turtle.avancer(distance.getValue());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex);
+                    }
                 }
             });
         }
         return avancer;
     }
 
-    private JButton getAllera() {
-        if (allera == null) {
-            allera = new JButton();
-            allera.setText("AllerA");
-            allera.addActionListener(new java.awt.event.ActionListener() {
+    private JButton getAllerA() {
+        if (allerA == null) {
+            allerA = new JButton();
+            allerA.setText("AllerA");
+            allerA.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet.");
+                    try {
+                        turtle.allerA(abscisse.getValue(), ordonnee.getValue());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex);
+                    }
                 }
             });
         }
 
-        return allera;
+        return allerA;
     }
 
-    private JButton getTournervers() {
-        if (tournervers == null) {
-            tournervers = new JButton();
-            tournervers.setText("TournerVers");
-            tournervers.addActionListener(new java.awt.event.ActionListener() {
+    private JButton getTournerVers() {
+        if (tournerVers == null) {
+            tournerVers = new JButton();
+            tournerVers.setText("TournerVers");
+            tournerVers.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    turtle.changerAngle(rotation.getValue());
+                    turtle.tournerVers(rotation.getValue());
                 }
             });
         }
 
-        return tournervers;
+        return tournerVers;
     }
 
     /**
@@ -242,7 +251,11 @@ public class TurtleTrip extends JApplet {
             reculer.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                    turtle.reculer(distance.getValue());
+                    try {
+                        turtle.reculer(distance.getValue());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex);
+                    }
                 }
             });
         }
@@ -335,8 +348,8 @@ public class TurtleTrip extends JApplet {
             jPanel.add(getReculer(), null);
             jPanel.add(getDroite(), null);
             jPanel.add(getGauche(), null);
-            jPanel.add(getAllera(), null);
-            jPanel.add(getTournervers(), null);
+            jPanel.add(getAllerA(), null);
+            jPanel.add(getTournerVers(), null);
             jPanel.add(getPlume(), null);
         }
         return jPanel;
@@ -514,8 +527,8 @@ public class TurtleTrip extends JApplet {
     private JSlider getAbscisse() {
         if (abscisse == null) {
             abscisse = new JSlider();
-            abscisse.setMinimum(0);
-            abscisse.setMaximum(turtleArea.getWidth());
+            abscisse.setMinimum(-325);
+            abscisse.setMaximum(325);
             abscisse.addChangeListener(new javax.swing.event.ChangeListener() {
 
                 public void stateChanged(javax.swing.event.ChangeEvent e) {
@@ -551,8 +564,8 @@ public class TurtleTrip extends JApplet {
     private JSlider getOrdonnee() {
         if (ordonnee == null) {
             ordonnee = new JSlider();
-            ordonnee.setMinimum(0);
-            ordonnee.setMaximum(turtleArea.getHeight());
+            ordonnee.setMinimum(-200);
+            ordonnee.setMaximum(200);
             ordonnee.addChangeListener(new javax.swing.event.ChangeListener() {
 
                 public void stateChanged(javax.swing.event.ChangeEvent e) {
