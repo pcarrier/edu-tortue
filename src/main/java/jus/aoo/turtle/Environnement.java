@@ -17,35 +17,38 @@ public class Environnement {
     private ArrayList<Obstacle> obstacles;
 
     public Environnement() {
-        this.obstacles = new ArrayList<Obstacle>(10);
+        obstacles = new ArrayList<Obstacle>(10);
     }
 
     /*
-     * @require NbMaxObstaclesNonAteint : this.obstacles.size() < Environnement.nbMaxObstacle
+     * @require NbMaxObstaclesNonAteint : obstacles.size() < Environnement.nbMaxObstacle
      */
     public void addObstacle(Obstacle ob) throws Exception {
 
-        if (this.obstacles.size() < nbMaxObstacle) {
-            this.obstacles.add(ob);
+        if (obstacles.size() < nbMaxObstacle) {
+            obstacles.add(ob);
         } else {
             throw new Exception("Nombre max d'obstacles atteint (" + nbMaxObstacle + ")");
         }
     }
 
     public int getNbObstacles() {
-        return this.obstacles.size();
+        return obstacles.size();
     }
 
     public ArrayList getObstacles() {
-        return this.obstacles;
+        return obstacles;
     }
 
     public boolean hasCollision(Obstacle obs, Point p1, Point p2) {
         int i;
         boolean ret = false;
 
-        if (this.mayCollapse(p1, p2, obs.sommetElargi(0), obs.sommetElargi(1)) || this.mayCollapse(p1, p2, obs.sommetElargi(0), obs.sommetElargi(3)) || this.mayCollapse(p1, p2, obs.sommetElargi(1), obs.sommetElargi(2)) || this.mayCollapse(p1, p2, obs.sommetElargi(2), obs.sommetElargi(3))) {
-            if (this._hasCollision(obs, p2)) {
+        if (mayCollapse(p1, p2, obs.sommetElargi(0), obs.sommetElargi(1)) ||
+                mayCollapse(p1, p2, obs.sommetElargi(1), obs.sommetElargi(2)) ||
+                mayCollapse(p1, p2, obs.sommetElargi(2), obs.sommetElargi(3)) ||
+                mayCollapse(p1, p2, obs.sommetElargi(3), obs.sommetElargi(0))) {
+            if (_hasCollision(obs, p2)) {
                 ret = true;
             }
         }
@@ -57,33 +60,23 @@ public class Environnement {
 
         Point[] ret = new Point[2];
 
-        if (this.mayCollapse(p1, p2, obs.sommetElargi(0), obs.sommetElargi(1))) {
+        if (mayCollapse(p1, p2, obs.sommetElargi(0), obs.sommetElargi(1))) {
             ret[0] = obs.sommetElargi(0);
             ret[1] = obs.sommetElargi(1);
-        } else {
-            if (this.mayCollapse(p1, p2, obs.sommetElargi(0), obs.sommetElargi(3))) {
-                ret[0] = obs.sommetElargi(0);
-                ret[1] = obs.sommetElargi(3);
-
-            } else {
-                if (this.mayCollapse(p1, p2, obs.sommetElargi(1), obs.sommetElargi(2))) {
-                    ret[0] = obs.sommetElargi(1);
-                    ret[1] = obs.sommetElargi(2);
-                } else {
-                    if (this.mayCollapse(p1, p2, obs.sommetElargi(2), obs.sommetElargi(3))) {
-                        ret[0] = obs.sommetElargi(2);
-                        ret[1] = obs.sommetElargi(3);
-                    }
-                }
-            }
+        } else if (mayCollapse(p1, p2, obs.sommetElargi(1), obs.sommetElargi(2))) {
+            ret[0] = obs.sommetElargi(1);
+            ret[1] = obs.sommetElargi(2);
+        } else if (mayCollapse(p1, p2, obs.sommetElargi(2), obs.sommetElargi(3))) {
+            ret[0] = obs.sommetElargi(2);
+            ret[1] = obs.sommetElargi(3);
+        } else if (mayCollapse(p1, p2, obs.sommetElargi(0), obs.sommetElargi(3))) {
+            ret[0] = obs.sommetElargi(0);
+            ret[1] = obs.sommetElargi(3);
         }
-
         return ret;
     }
 
     public Point getCollapsePoint(Point p1, Point p2, Point p3, Point p4) {
-
-
         double uaNominator = (p4.abscisse() - p3.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p4.ordonnee() - p3.ordonnee()) * (p1.abscisse() - p3.abscisse());
         double ubNominator = (p2.abscisse() - p1.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p2.ordonnee() - p1.ordonnee()) * (p1.abscisse() - p3.abscisse());
         double denominator = ((p4.ordonnee() - p3.ordonnee()) * (p2.abscisse() - p1.abscisse())) - ((p4.abscisse() - p3.abscisse()) * (p2.ordonnee() - p1.ordonnee()));

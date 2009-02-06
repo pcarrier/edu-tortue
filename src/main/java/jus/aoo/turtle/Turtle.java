@@ -40,14 +40,14 @@ public class Turtle {
         }
         cap = new Vecteur(Vecteur.UNITE);
         estLeve = true;
-        num = 1 + ((num-1) % 15);
-        image = new Image(position, "/jus/aoo/turtle/data/tortue"+num+".png", feuille);
+        num = 1 + ((num - 1) % 15);
+        image = new Image(position, "/jus/aoo/turtle/data/tortue" + num + ".png", feuille);
         feuille.addPermanent(image);
         this.env = env;
     }
 
     public Environnement getEnvironnement() {
-        return this.env;
+        return env;
     }
 
     /**
@@ -59,50 +59,39 @@ public class Turtle {
      * @ensure capOk : new Vecteur(_position(),position()).colineaire(cap())
      */
     public void avancer(int d) throws Exception {
-        Point _position = new Point(position);
+        Point ancienne_position = new Point(position);
+        Point nouvelle_position = new Point(position);
         Vecteur v = new Vecteur(cap);
         v.homothetie(d);
-        position.translation(v);
-        if (position.abscisse() < 0 ||
-                position.ordonnee() < 0 ||
-                position.abscisse() > feuille.getWidth() ||
-                position.ordonnee() > feuille.getHeight()) {
-            position = _position;
+        nouvelle_position.translation(v);
+        if (nouvelle_position.abscisse() < 0 ||
+                nouvelle_position.ordonnee() < 0 ||
+                nouvelle_position.abscisse() > feuille.getWidth() ||
+                nouvelle_position.ordonnee() > feuille.getHeight()) {
             throw new Exception("Out of screen move!");
+        }
+
+        for (int it = 0; it < env.getObstacles().size(); ++it) {
+            if (env.hasCollision((Obstacle) env.getObstacles().get(it),
+                    ancienne_position, nouvelle_position)) {
+                Obstacle obs = (Obstacle) env.getObstacles().get(it);
+                Point position_intermediaire = env.getCollapsePoint(
+                        ancienne_position, nouvelle_position,
+                        env.getSegCollapse(obs, nouvelle_position, ancienne_position)[0],
+                        env.getSegCollapse(obs, nouvelle_position, ancienne_position)[1]);
+                Vecteur nv = new Vecteur(ancienne_position, position_intermediaire);
+                System.out.println("Avancee limitee a "+nv.module());
+                avancer((int) nv.module() - 1);
+                return;
+            }
+        }
+
+        position = nouvelle_position;
+        image.translation(v);
+        if (!estLeve) {
+            feuille.add(new Segment(ancienne_position, nouvelle_position));
         } else {
-            int i;
-            boolean collapse = false;
-            Obstacle obs;
-            Point segp1, segp2;
-
-            segp1=new Point();
-            segp2=new Point();
-            
-            for (i = 0; i < this.env.getObstacles().size(); i++) {
-                if (this.env.hasCollision((Obstacle) this.env.getObstacles().get(i), _position, position)) {
-                    collapse = true;
-                    obs=(Obstacle) this.env.getObstacles().get(i);
-                    segp1=this.env.getSegCollapse(obs, position, _position)[0];
-                    segp2=this.env.getSegCollapse(obs, position, _position)[1];
-                    break;
-                }
-            }
-
-            if (!collapse) {//On avance
-                image.translation(v);
-                if (!estLeve) {
-                    feuille.add(new Segment(_position, position));
-                } else {
-                    feuille.repaint();
-                }
-            } else {//On trouve le point le plus proche qu'on peut atteindre
-                //position = _position;
-
-                position=this.env.getCollapsePoint(_position, position, segp1,segp2);
-                Vecteur nv = new Vecteur(_position, position);
-                image.translation(nv);
-                //throw new Exception("Un obstacle est sur votre route.");
-            }
+            feuille.repaint();
         }
     }
 
@@ -123,9 +112,10 @@ public class Turtle {
         int nx = (int) (x * feuille.getWidth() / 100.0);
         int ny = (int) (y * feuille.getHeight() / 100.0);
         Point future_position = new Point(Point.CARTESIEN, nx, ny);
-        for (int it = 0; it < env.getObstacles().size(); ++it) {
+        for (int it = 0; it <
+                env.getObstacles().size(); ++it) {
             Obstacle obs = (Obstacle) env.getObstacles().get(it);
-            if (obs.cadreElargi().contains(nx,ny)) {
+            if (obs.cadreElargi().contains(nx, ny)) {
                 throw new Exception("Obstacle à cette position !");
             }
         }
@@ -137,6 +127,7 @@ public class Turtle {
         } else {
             feuille.repaint();
         }
+
     }
 
     /**
