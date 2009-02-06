@@ -77,25 +77,23 @@ public class Turtle {
             boolean collapse = false;
 
             for (i = 0; i < this.env.getObstacles().size(); i++) {
-                if (!this.env.hasCollision((Obstacle) this.env.getObstacles().get(i), _position, position)) {
+                if (this.env.hasCollision((Obstacle) this.env.getObstacles().get(i), _position, position)) {
                     collapse = true;
-
                     break;
                 }
             }
 
-            if (!collapse) {
-                image.translation(v);
-            } else {
 
+            if (!collapse) {//On avance
+                image.translation(v);
+                if (!estLeve) {
+                    feuille.add(new Segment(_position, position));
+                } else {
+                    feuille.repaint();
+                }
+            } else {//On trouve le point le plus proche qu'on peut atteindre
                 position = _position;
                 throw new Exception("Un obstacle est sur votre route.");
-            }
-
-            if (!estLeve) {
-                feuille.add(new Segment(_position, position));
-            } else {
-                feuille.repaint();
             }
         }
 
