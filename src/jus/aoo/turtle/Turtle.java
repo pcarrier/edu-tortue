@@ -41,11 +41,6 @@ public class Turtle {
         cap = new Vecteur(Vecteur.UNITE);
         estLeve = true;
         image = new Image(position, imageFile, feuille);
-        /* On r�alise des transformations sur le support de dessin pour avoir le zero au centre de l'espace
-         * l'orientation positive des ordonn�es vers le haut et le cap zero  � droite.
-         * On maintient cependant la rotation dans le sens anti-horaire */
-        feuille.addAffineTransformation(AffineTransform.getTranslateInstance(feuille.getWidth() / 2, feuille.getHeight() / 2));
-        feuille.addAffineTransformation(AffineTransform.getScaleInstance(1, -1));
         feuille.addPermanent(image);
     }
 

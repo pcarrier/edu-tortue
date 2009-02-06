@@ -8,8 +8,6 @@ import java.awt.Container;
 import java.awt.Window;
 
 import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,6 +22,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
 
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 import jus.aoo.geometrie.DrawingSpace;
 import jus.aoo.geometrie.Figure;
 import jus.aoo.geometrie._NewFigure;
@@ -58,7 +58,7 @@ public class TurtleTrip extends JApplet {
 
     /** La tortue control�e par cette interface */
     private Turtle turtle = null;
-    private Turtle turtles[];
+    private ArrayList turtles;
     /** les widgets */
     private JPanel jContentPane = null;
     private JPanel control = null;
@@ -126,9 +126,20 @@ public class TurtleTrip extends JApplet {
         if (f != null) {
             f.pack();
         }
-        turtle = new Turtle(turtleArea, this.environnement);
-        turtles = new Turtle[1];
-        turtles[0] = turtle;
+        ajouterTortue();
+        selectionnerTortue(0);
+    }
+
+    private void selectionnerTortue(int index) {
+        turtle = (Turtle) turtles.get(index);
+    }
+
+    private void ajouterTortue() {
+        if (turtles == null) {
+            turtles = new ArrayList();
+        }
+        turtles.add(new Turtle(getTurtleArea(), this.environnement));
+        choixTortue.setMaximum(turtles.size());
     }
 
     /**
@@ -203,7 +214,27 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
-        return avancer;
+        return ajoutTortue;
+    }
+
+    private JSlider getChoixTortue() {
+        if (choixTortue == null) {
+            choixTortue = new JSlider();
+            choixTortue.setToolTipText("tortue a manoeuvrer");
+            choixTortue.setSnapToTicks(true);
+            choixTortue.setMajorTickSpacing(1);
+            choixTortue.setPaintTicks(true);
+            choixTortue.setMinimum(1);
+            choixTortue.setMaximum(1);
+            choixTortue.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                public void stateChanged(javax.swing.event.ChangeEvent e) {
+                    selectionnerTortue(choixTortue.getValue() - 1);
+                }
+            });
+        }
+
+        return choixTortue;
     }
 
     /**
@@ -410,11 +441,13 @@ public class TurtleTrip extends JApplet {
     private JPanel getJPanel2() {
         if (jPanel2 == null) {
             GridLayout gridLayout1 = new GridLayout();
-            gridLayout1.setRows(2);
+            gridLayout1.setRows(3);
             gridLayout1.setColumns(2);
             jPanel2 =
                     new JPanel();
             jPanel2.setLayout(gridLayout1);
+            jPanel2.add(getChoixTortue(), null);
+            jPanel2.add(getAjoutTortue(), null);
             jPanel2.add(getJPanel3(), null);
             jPanel2.add(getJPanel4(), null);
             jPanel2.add(getJPanel6(), null);
