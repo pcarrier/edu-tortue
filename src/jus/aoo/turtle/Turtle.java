@@ -32,7 +32,7 @@ public class Turtle {
      * @param feuille la surface explor�e
      * @require fmtOk : feuille!=null
      */
-    public Turtle(DrawingSpace feuille) {
+    public Turtle(DrawingSpace feuille, int num, Environnement env) {
         this.feuille = feuille;
         try {
             position = new Point(Point.CARTESIEN, feuille.getWidth() / 2, feuille.getHeight() / 2);
@@ -40,12 +40,9 @@ public class Turtle {
         }
         cap = new Vecteur(Vecteur.UNITE);
         estLeve = true;
-        image = new Image(position, imageFile, feuille);
+        num = 1 + ((num-1) % 15);
+        image = new Image(position, "/jus/aoo/turtle/data/tortue"+num+".png", feuille);
         feuille.addPermanent(image);
-    }
-
-    public Turtle(DrawingSpace feuille, Environnement env) {
-        this(feuille);
         this.env = env;
     }
 

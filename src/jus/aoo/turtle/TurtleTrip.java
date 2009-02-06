@@ -132,13 +132,14 @@ public class TurtleTrip extends JApplet {
 
     private void selectionnerTortue(int index) {
         turtle = (Turtle) turtles.get(index);
+        plume.setSelected(!turtle.estLeve);
     }
 
     private void ajouterTortue() {
         if (turtles == null) {
             turtles = new ArrayList();
         }
-        turtles.add(new Turtle(getTurtleArea(), this.environnement));
+        turtles.add(new Turtle(getTurtleArea(), turtles.size()+1, this.environnement));
         choixTortue.setMaximum(turtles.size());
     }
 
@@ -504,7 +505,7 @@ public class TurtleTrip extends JApplet {
     private JCheckBox getPlume() {
         if (plume == null) {
             plume = new JCheckBox();
-            plume.setText("Tra�ant");
+            plume.setText("Tracant");
             plume.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(java.awt.event.ActionEvent e) {
