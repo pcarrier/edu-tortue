@@ -1,8 +1,5 @@
 package jus.aoo.turtle;
 
-import java.awt.geom.AffineTransform;
-
-import javax.swing.text.Position;
 import jus.aoo.geometrie.DrawingSpace;
 import jus.aoo.geometrie.Image;
 import jus.aoo.geometrie.Segment;
@@ -36,7 +33,7 @@ public class Turtle {
     public Turtle(DrawingSpace feuille) {
         this.feuille = feuille;
         try {
-            position = new Point(Point.CARTESIEN, feuille.getWidth()/2, feuille.getHeight()/2);
+            position = new Point(Point.CARTESIEN, feuille.getWidth() / 2, feuille.getHeight() / 2);
         } catch (Require e) {
         }
         cap = new Vecteur(Vecteur.UNITE);
@@ -116,20 +113,16 @@ public class Turtle {
     }
 
     public void allerA(int x, int y) throws Exception {
-        if (2 * Math.abs(x) > feuille.getWidth() ||
-                2 * Math.abs(y) > feuille.getHeight()) {
-            throw new Exception("Out of screen move!");
+        Point ancienne_position = new Point(position);
+        Point future_position = new Point(Point.CARTESIEN,
+                x * feuille.getWidth() / 100.0, y * feuille.getHeight() / 100.0);
+        Vecteur v = new Vecteur(ancienne_position, future_position);
+        position.translation(v);
+        image.translation(v);
+        if (!estLeve) {
+            feuille.add(new Segment(ancienne_position, future_position));
         } else {
-            Point ancienne_position = new Point(position);
-            Point future_position = new Point(Point.CARTESIEN, x, y);
-            Vecteur v = new Vecteur(ancienne_position, future_position);
-            position.translation(v);
-            image.translation(v);
-            if (!estLeve) {
-                feuille.add(new Segment(ancienne_position, future_position));
-            } else {
-                feuille.repaint();
-            }
+            feuille.repaint();
         }
     }
 
