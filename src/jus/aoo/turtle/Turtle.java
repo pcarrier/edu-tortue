@@ -72,10 +72,18 @@ public class Turtle {
         } else {
             int i;
             boolean collapse = false;
+            Obstacle obs;
+            Point segp1, segp2;
 
+            segp1=new Point();
+            segp2=new Point();
+            
             for (i = 0; i < this.env.getObstacles().size(); i++) {
                 if (this.env.hasCollision((Obstacle) this.env.getObstacles().get(i), _position, position)) {
                     collapse = true;
+                    obs=(Obstacle) this.env.getObstacles().get(i);
+                    segp1=this.env.getSegCollapse(obs, position, _position)[0];
+                    segp2=this.env.getSegCollapse(obs, position, _position)[1];
                     break;
                 }
             }
@@ -88,9 +96,10 @@ public class Turtle {
                     feuille.repaint();
                 }
             } else {//On trouve le point le plus proche qu'on peut atteindre
-                position = _position;
+                //position = _position;
 
-
+                position=this.env.getCollapsePoint(_position, position, segp1,segp2 );
+                Vecteur nv = new Vecteur(_position, position);
                 throw new Exception("Un obstacle est sur votre route.");
             }
         }
