@@ -17,19 +17,17 @@ import jus.util.geometrie.*;
  */
 public class Obstacle extends Figure {
 
-    protected Point p1; // le sommet le plus petit du cadre
+    protected Point p1; // le sommet le plus petit du cadre ??
     protected int width,  height; // largeur  & hauteur du cadre
+    private static int bord = 64;
 
-    private static int bord=64;
     /**
      * Construction d'un Obstacle
      * @param p1 l'extr�mit� d'une diagonale
      * @param p2 l'autre extr�mit� de la diagonale
      */
     public Obstacle(Point p1, Point p2) {
-        System.out.println("Obstacle builded");
         this.p1 = new Point(Point.CARTESIEN, Math.min((int) p1.abscisse(), (int) p2.abscisse()), Math.min((int) p1.ordonnee(), (int) p2.ordonnee()));
-        
         width = Math.max((int) p1.abscisse(), (int) p2.abscisse()) - Math.min((int) p1.abscisse(), (int) p2.abscisse());
         height = Math.max((int) p1.ordonnee(), (int) p2.ordonnee()) - Math.min((int) p1.ordonnee(), (int) p2.ordonnee());
     }
@@ -68,17 +66,11 @@ public class Obstacle extends Figure {
     @Override
     public void rotation(double a) {
     }
-    /* (non-Javadoc)
-     * @see jus.aoo.geometrie.Figure#perimetre()
-     */
 
     @Override
     public double perimetre() {
         return (width + height) * 2;
     }
-    /* (non-Javadoc)
-     * @see jus.aoo.geometrie.Figure#sommet(int)
-     */
 
     @Override
     public Point sommet(int num) {
@@ -97,9 +89,6 @@ public class Obstacle extends Figure {
             }
         }
     }
-    /* (non-Javadoc)
-     * @see jus.aoo.geometrie.Figure#segments()
-     */
 
     @Override
     public Iterator<Segment> segments() {
@@ -131,7 +120,7 @@ public class Obstacle extends Figure {
 
     public void draw(Graphics g) {
         Color oldColor = g.getColor();
-        g.setColor(Color.RED);
+        g.setColor(Color.DARK_GRAY);
         java.awt.Rectangle cadre = cadre();
         g.fillRect(cadre.x, cadre.y, cadre.width, cadre.height);
         g.setColor(oldColor);
@@ -144,25 +133,24 @@ public class Obstacle extends Figure {
         return new java.awt.Rectangle((int) p1.abscisse(), (int) p1.ordonnee(), width, height);
     }
 
-    public java.awt.Rectangle cadreElargit() {
-        return new java.awt.Rectangle((int) p1.abscisse() -bord, (int) p1.ordonnee()-bord, width+bord, height+bord);
+    public java.awt.Rectangle cadreElargi() {
+        return new java.awt.Rectangle((int) p1.abscisse() - bord, (int) p1.ordonnee() - bord, width + (2*bord), height + (2*bord));
     }
 
-    public Point sommetElargit(int num) {
+    public Point sommetElargi(int num) {
         switch (num) {
             case 0: {
-                return new Point(Point.CARTESIEN, (int) p1.abscisse()-bord, (int) p1.ordonnee()-bord);
+                return new Point(Point.CARTESIEN, (int) p1.abscisse() - bord, (int) p1.ordonnee() - bord);
             }
             case 1: {
-                return new Point(Point.CARTESIEN, (int) p1.abscisse() + width+bord, (int) p1.ordonnee()-bord);
+                return new Point(Point.CARTESIEN, (int) p1.abscisse() + width + bord, (int) p1.ordonnee() - bord);
             }
             case 2: {
-                return new Point(Point.CARTESIEN, (int) p1.abscisse() + width +bord, (int) p1.ordonnee() + height+bord);
+                return new Point(Point.CARTESIEN, (int) p1.abscisse() + width + bord, (int) p1.ordonnee() + height + bord);
             }
             default: {
-                return new Point(Point.CARTESIEN, (int) p1.abscisse()+bord, (int) p1.ordonnee() + height+bord);
+                return new Point(Point.CARTESIEN, (int) p1.abscisse() - bord, (int) p1.ordonnee() + height + bord);
             }
         }
     }
-    
 }

@@ -125,7 +125,7 @@ public class Turtle {
         Point future_position = new Point(Point.CARTESIEN, nx, ny);
         for (int it = 0; it < env.getObstacles().size(); ++it) {
             Obstacle obs = (Obstacle) env.getObstacles().get(it);
-            if (obs.cadreElargit().contains(nx,ny)) {
+            if (obs.cadreElargi().contains(nx,ny)) {
                 throw new Exception("Obstacle à cette position !");
             }
         }
