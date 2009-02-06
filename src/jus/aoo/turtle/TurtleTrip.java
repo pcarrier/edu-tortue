@@ -57,11 +57,14 @@ import jus.aoo.geometrie._NewFigure;
 public class TurtleTrip extends JApplet {
 
     /** La tortue control�e par cette interface */
-    private Turtle turtle;
+    private Turtle turtle = null;
+    private Turtle turtles[];
     /** les widgets */
     private JPanel jContentPane = null;
     private JPanel control = null;
     private DrawingSpace turtleArea = null;
+    private JButton ajoutTortue = null;
+    private JSlider choixTortue = null;
     private JButton avancer = null;
     private JButton reculer = null;
     private JButton droite = null;
@@ -91,15 +94,14 @@ public class TurtleTrip extends JApplet {
     private JLabel jLabel3 = null;
     private JSlider ordonnee = null;
     private JLabel valueOrdonnee = null;
-
-    private Environnement environnement=null;
+    private Environnement environnement = null;
 
     /**
      * This is the default constructor
      */
     public TurtleTrip() {
         super();
-        this.environnement=new Environnement();
+        this.environnement = new Environnement();
     }
 
     /**
@@ -125,6 +127,8 @@ public class TurtleTrip extends JApplet {
             f.pack();
         }
         turtle = new Turtle(turtleArea, this.environnement);
+        turtles = new Turtle[1];
+        turtles[0] = turtle;
     }
 
     /**
@@ -184,6 +188,24 @@ public class TurtleTrip extends JApplet {
         return turtleArea;
     }
 
+    private JButton getAjoutTortue() {
+        if (ajoutTortue == null) {
+            ajoutTortue = new JButton();
+            ajoutTortue.setText("Ajout de tortue");
+            ajoutTortue.addActionListener(new java.awt.event.ActionListener() {
+
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    try {
+                        ajouterTortue();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex);
+                    }
+                }
+            });
+        }
+        return avancer;
+    }
+
     /**
      * This method initializes avancer
      * @return javax.swing.JButton
@@ -200,9 +222,11 @@ public class TurtleTrip extends JApplet {
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex);
                     }
+
                 }
             });
         }
+
         return avancer;
     }
 
@@ -218,6 +242,7 @@ public class TurtleTrip extends JApplet {
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex);
                     }
+
                 }
             });
         }
@@ -256,9 +281,11 @@ public class TurtleTrip extends JApplet {
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex);
                     }
+
                 }
             });
         }
+
         return reculer;
     }
 
@@ -277,6 +304,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return droite;
     }
 
@@ -295,6 +323,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return gauche;
     }
 
@@ -313,6 +342,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return quit;
     }
 
@@ -331,6 +361,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return clear;
     }
 
@@ -342,7 +373,8 @@ public class TurtleTrip extends JApplet {
         if (jPanel == null) {
             FlowLayout flowLayout = new FlowLayout();
             flowLayout.setAlignment(java.awt.FlowLayout.LEFT);
-            jPanel = new JPanel();
+            jPanel =
+                    new JPanel();
             jPanel.setLayout(flowLayout);
             jPanel.add(getAvancer(), null);
             jPanel.add(getReculer(), null);
@@ -352,6 +384,7 @@ public class TurtleTrip extends JApplet {
             jPanel.add(getTournerVers(), null);
             jPanel.add(getPlume(), null);
         }
+
         return jPanel;
     }
 
@@ -366,6 +399,7 @@ public class TurtleTrip extends JApplet {
             jPanel1.add(getClear(), null);
             jPanel1.add(getQuit(), null);
         }
+
         return jPanel1;
     }
 
@@ -378,13 +412,15 @@ public class TurtleTrip extends JApplet {
             GridLayout gridLayout1 = new GridLayout();
             gridLayout1.setRows(2);
             gridLayout1.setColumns(2);
-            jPanel2 = new JPanel();
+            jPanel2 =
+                    new JPanel();
             jPanel2.setLayout(gridLayout1);
             jPanel2.add(getJPanel3(), null);
             jPanel2.add(getJPanel4(), null);
             jPanel2.add(getJPanel6(), null);
             jPanel2.add(getJPanel7(), null);
         }
+
         return jPanel2;
     }
 
@@ -403,6 +439,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return distance;
     }
 
@@ -423,6 +460,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return rotation;
     }
 
@@ -442,9 +480,11 @@ public class TurtleTrip extends JApplet {
                     } else {
                         turtle.baisser();
                     }
+
                 }
             });
         }
+
         return plume;
     }
 
@@ -456,13 +496,16 @@ public class TurtleTrip extends JApplet {
         if (jPanel3 == null) {
             jLabel = new JLabel();
             jLabel.setText("distance");
-            jPanel3 = new JPanel();
+            jPanel3 =
+                    new JPanel();
             jPanel3.add(jLabel, null);
             jPanel3.add(getDistance(), null);
-            valueDistance = new JLabel();
+            valueDistance =
+                    new JLabel();
             valueDistance.setText("" + distance.getValue());
             jPanel3.add(valueDistance, null);
         }
+
         return jPanel3;
     }
 
@@ -474,13 +517,16 @@ public class TurtleTrip extends JApplet {
         if (jPanel4 == null) {
             jLabel1 = new JLabel();
             jLabel1.setText("rotation");
-            jPanel4 = new JPanel();
+            jPanel4 =
+                    new JPanel();
             jPanel4.add(jLabel1, null);
             jPanel4.add(getJSlider(), null);
-            valueRotation = new JLabel();
+            valueRotation =
+                    new JLabel();
             valueRotation.setText("" + rotation.getValue());
             jPanel4.add(valueRotation, null);
         }
+
         return jPanel4;
     }
 
@@ -499,6 +545,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return jPanel5;
     }
 
@@ -510,13 +557,16 @@ public class TurtleTrip extends JApplet {
         if (jPanel6 == null) {
             jLabel2 = new JLabel();
             jLabel2.setText("abscisse");
-            jPanel6 = new JPanel();
+            jPanel6 =
+                    new JPanel();
             jPanel6.add(jLabel2, null);
             jPanel6.add(getAbscisse(), null);
-            valueAbscisse = new JLabel();
+            valueAbscisse =
+                    new JLabel();
             valueAbscisse.setText("" + abscisse.getValue());
             jPanel6.add(valueAbscisse, null);
         }
+
         return jPanel6;
     }
 
@@ -536,6 +586,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return abscisse;
     }
 
@@ -547,13 +598,16 @@ public class TurtleTrip extends JApplet {
         if (jPanel7 == null) {
             jLabel3 = new JLabel();
             jLabel3.setText("ordonn�e");
-            jPanel7 = new JPanel();
+            jPanel7 =
+                    new JPanel();
             jPanel7.add(jLabel3, null);
             jPanel7.add(getOrdonnee(), null);
-            valueOrdonnee = new JLabel();
+            valueOrdonnee =
+                    new JLabel();
             valueOrdonnee.setText("" + ordonnee.getValue());
             jPanel7.add(valueOrdonnee, null);
         }
+
         return jPanel7;
     }
 
@@ -573,6 +627,7 @@ public class TurtleTrip extends JApplet {
                 }
             });
         }
+
         return ordonnee;
     }
 
@@ -612,21 +667,27 @@ public class TurtleTrip extends JApplet {
             for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
                 p = t.transform(p, null);
             }
+
             positionMouseInGeometrie = new java.awt.Point((int) p.getX(), (int) p.getY());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
             return;
+
         }
+
+
         try {
             if (newFigure != null) {
                 newFigure.changePoint(new jus.util.geometrie.Point(jus.util.geometrie.Point.CARTESIEN, positionMouseInGeometrie.getX(), positionMouseInGeometrie.getY()));
                 if (newFigure.newFigure() != null) {
                     turtleArea.setTemporaire(newFigure.newFigure());
                 }
+
             }
         } catch (Exception x) {
             JOptionPane.showMessageDialog(null, x);
         }
+
     }
 
     private void geometrieMousePressed(java.awt.event.MouseEvent evt) {
@@ -637,11 +698,15 @@ public class TurtleTrip extends JApplet {
                 for (java.awt.geom.AffineTransform t : turtleArea.inverseTransformations()) {
                     p = t.transform(p, null);
                 }
+
                 positionMouseInGeometrie = new java.awt.Point((int) p.getX(), (int) p.getY());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
                 return;
+
             }
+
+
             if (newFigure == null) {
                 try {
                     newFigure = new NewObstacle();
@@ -651,28 +716,32 @@ public class TurtleTrip extends JApplet {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+
             } else {
                 try {
                     newFigure.newPoint(new jus.util.geometrie.Point(jus.util.geometrie.Point.CARTESIEN, positionMouseInGeometrie.getX(), positionMouseInGeometrie.getY()));
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                     return;
+
                 }
+
+
                 if (newFigure.isComplete()) {
 
-                    try{
-                    turtleArea.addPermanent(newFigure.newFigure());
-                    this.environnement.addObstacle((Obstacle) newFigure.newFigure());
+                    try {
+                        turtleArea.addPermanent(newFigure.newFigure());
+                        this.environnement.addObstacle((Obstacle) newFigure.newFigure());
                     } catch (Exception e) { //May never happens
                         JOptionPane.showMessageDialog(null, e);
-                    }finally{
+                    } finally {
                         turtleArea.clearTemporaire();
-                        newFigure = null;
+                        newFigure =
+                                null;
 
                     }
-
                 }
             }
-       }
+        }
     }
 }
