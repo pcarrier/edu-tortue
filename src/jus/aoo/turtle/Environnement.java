@@ -7,7 +7,6 @@ package jus.aoo.turtle;
 import java.util.ArrayList;
 import jus.util.geometrie.Point;
 
-
 /**
  *
  * @author jc
@@ -41,36 +40,97 @@ public class Environnement {
         return this.obstacles;
     }
 
-    public boolean hasCollision(Obstacle obs,Point p1, Point p2) {
-    int i;
-    boolean ret=false;
-    
-        if(this.mayCollapse(p1, p2, obs.sommetElargit(0),obs.sommetElargit(1))
-        || this.mayCollapse(p1, p2, obs.sommetElargit(0),obs.sommetElargit(3))
-        || this.mayCollapse(p1, p2, obs.sommetElargit(1),obs.sommetElargit(2))
-        || this.mayCollapse(p1, p2, obs.sommetElargit(2),obs.sommetElargit(3))
-        ){
-            if (this._hasCollision(obs, p2)){
-                ret=true;
+    public boolean hasCollision(Obstacle obs, Point p1, Point p2) {
+        int i;
+        boolean ret = false;
+
+        if (this.mayCollapse(p1, p2, obs.sommetElargit(0), obs.sommetElargit(1)) || this.mayCollapse(p1, p2, obs.sommetElargit(0), obs.sommetElargit(3)) || this.mayCollapse(p1, p2, obs.sommetElargit(1), obs.sommetElargit(2)) || this.mayCollapse(p1, p2, obs.sommetElargit(2), obs.sommetElargit(3))) {
+            if (this._hasCollision(obs, p2)) {
+                ret = true;
             }
+        }
+
+        return ret;
     }
 
-    return ret;
-    }
+    public Point[] getSegCollapse(Obstacle obs, Point p1, Point p2) {
 
-    void getCoordonneeMax(Object obs, int d) {
-       
-    }
+        Point[] ret = new Point[2];
 
-    // Can the line from p1 to p2 cross p3 to p4 ?
-    private boolean mayCollapse(Point p1, Point p2, Point p3,Point p4) {
+        if (this.mayCollapse(p1, p2, obs.sommetElargit(0), obs.sommetElargit(1))){
+        ret[0]=obs.sommetElargit(0);
+        ret[1]=obs.sommetElargit(1);
+        }else{
+               if(this.mayCollapse(p1, p2, obs.sommetElargit(0), obs.sommetElargit(3))){
+                ret[0]=obs.sommetElargit(0);
+                ret[1]=obs.sommetElargit(3);
+
+               }else{
+                   if(this.mayCollapse(p1, p2, obs.sommetElargit(1), obs.sommetElargit(2))){
+                   ret[0]=obs.sommetElargit(1);
+                    ret[1]=obs.sommetElargit(2);
+                   }else{
+                   if(this.mayCollapse(p1, p2, obs.sommetElargit(2), obs.sommetElargit(3))){
+                    ret[0]=obs.sommetElargit(2);
+                    ret[1]=obs.sommetElargit(3);
+                   }
+                  }
+               }
+        }
+
+        return ret;
+}
+
+public Point getCollapsePoint(
+
+Point p1, Point p2, Point p3,Point p4){
+
+        
         double uaNominator = (p4.abscisse() - p3.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p4.ordonnee() - p3.ordonnee()) * (p1.abscisse() - p3.abscisse());
-        double ubNominator = (p2.abscisse() - p1.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p2.ordonnee() - p1.ordonnee()) * (p1.abscisse() - p3.abscisse());
-        double denominator = ((p4.ordonnee() - p3.ordonnee()) * (p2.abscisse() - p1.abscisse())) - ((p4.abscisse() - p3.abscisse()) * (p2.ordonnee() - p1.ordonnee()));
-        double ua = uaNominator / denominator;
-        double ub = uaNominator / denominator;
+        double
 
-        if (denominator != 0) //not parallels
+ubNominator = (p2.abscisse() - p1.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p2.ordonnee() - p1.ordonnee()) * (p1.abscisse() - p3.abscisse());
+        double
+
+denominator = ((p4.ordonnee() - p3.ordonnee()) * (p2.abscisse() - p1.abscisse())) - ((p4.abscisse() - p3.abscisse()) * (p2.ordonnee() - p1.ordonnee()));
+        double
+
+ua = uaNominator / denominator;
+        double
+
+ub = uaNominator / denominator;
+
+        double
+
+x=p1.abscisse()+ua*(p2.abscisse()-p1.abscisse());
+        double
+
+y=p1.ordonnee()+ua*(p2.ordonnee()-p1.ordonnee());
+
+        return
+
+new Point(Point.CARTESIEN,(int)x, (int)y);
+    }
+
+// Can the line from p1 to p2 cross p3 to p4 ?
+private boolean mayCollapse(Point p1, Point p2, Point p3,Point p4) {
+        double uaNominator = (p4.abscisse() - p3.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p4.ordonnee() - p3.ordonnee()) * (p1.abscisse() - p3.abscisse());
+        double
+
+ubNominator = (p2.abscisse() - p1.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p2.ordonnee() - p1.ordonnee()) * (p1.abscisse() - p3.abscisse());
+        double
+
+denominator = ((p4.ordonnee() - p3.ordonnee()) * (p2.abscisse() - p1.abscisse())) - ((p4.abscisse() - p3.abscisse()) * (p2.ordonnee() - p1.ordonnee()));
+        double
+
+ua = uaNominator / denominator;
+        double
+
+ub = uaNominator / denominator;
+
+        if
+
+(denominator != 0) //not parallels
         {
             /*
             System.out.println("NextPos x :" + p2.abscisse());
@@ -85,19 +145,21 @@ public class Environnement {
             */
             return (checkUxRange(ub) && checkUxRange(ua));
         }
-        return false;
+
+return false;
     }
 
-    //Is the point in the large cadre ?
-    private boolean _hasCollision(Obstacle obs, Point p){
+//Is the point in the large cadre ?
+private boolean _hasCollision(Obstacle obs, Point p){
         return obs.cadreElargit().contains(p.abscisse(), p.ordonnee());
     }
-    
-    private boolean checkUxRange(double ux) {
+
+private boolean checkUxRange(double ux) {
 
         if ((ux >= 0) && (ux <= 1)) {
             return true;
         }
-        return false;
+
+return false;
     }
 }
