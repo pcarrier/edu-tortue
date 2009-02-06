@@ -20,7 +20,7 @@ import jus.util.assertion.*;
  */
 public class Turtle {
 
-    protected Environnement env=new Environnement(); //Environnement des instances de tortues (obstacles, ...)
+    protected Environnement env = new Environnement(); //Environnement des instances de tortues (obstacles, ...)
     protected DrawingSpace feuille; // l'espace de d�placement de la tortue
     protected static final String imageFile = "/jus/aoo/turtle/Turtle.gif"; //le nom de l'image mat�rialisant la tortue.
     protected Image image;			//l'image de la tortue
@@ -36,7 +36,7 @@ public class Turtle {
     public Turtle(DrawingSpace feuille) {
         this.feuille = feuille;
         try {
-            position = new Point(Point.CARTESIEN, 0, 0);
+            position = new Point(Point.CARTESIEN, feuille.getWidth()/2, feuille.getHeight()/2);
         } catch (Require e) {
         }
         cap = new Vecteur(Vecteur.UNITE);
@@ -47,14 +47,13 @@ public class Turtle {
 
     public Turtle(DrawingSpace feuille, Environnement env) {
         this(feuille);
-        this.env=env;
+        this.env = env;
     }
 
-    
-    public Environnement getEnvironnement(){
+    public Environnement getEnvironnement() {
         return this.env;
     }
-    
+
     /**
      * Fait avancer la tortue de d pas
      * @param d la distance � parcourir
@@ -68,32 +67,32 @@ public class Turtle {
         Vecteur v = new Vecteur(cap);
         v.homothetie(d);
         position.translation(v);
-        if (2 * Math.abs(position.abscisse()) > feuille.getWidth() ||
-                2 * Math.abs(position.ordonnee()) > feuille.getHeight()) {
+        if (position.abscisse() < 0 ||
+                position.ordonnee() < 0 ||
+                position.abscisse() > feuille.getWidth() ||
+                position.ordonnee() > feuille.getHeight()) {
             position = _position;
             throw new Exception("Out of screen move!");
         } else {
             int i;
-            boolean collapse=false;
-            
-            for(i=0; i<this.env.getObstacles().size();i++){
-                if(!this.env.hasCollision((Obstacle)this.env.getObstacles().get(i), _position, position))
-                {
-                    collapse=true;
+            boolean collapse = false;
+
+            for (i = 0; i < this.env.getObstacles().size(); i++) {
+                if (!this.env.hasCollision((Obstacle) this.env.getObstacles().get(i), _position, position)) {
+                    collapse = true;
 
                     break;
                 }
             }
 
-            if (!collapse)
-            {
+            if (!collapse) {
                 image.translation(v);
-            }else{
-                
+            } else {
+
                 position = _position;
                 throw new Exception("Un obstacle est sur votre route.");
             }
-            
+
             if (!estLeve) {
                 feuille.add(new Segment(_position, position));
             } else {
@@ -101,7 +100,7 @@ public class Turtle {
             }
         }
 
-        System.out.println("Nombre d'obstacles : "+this.env.getNbObstacles());
+        System.out.println("Nombre d'obstacles : " + this.env.getNbObstacles());
     }
 
     /**
@@ -113,22 +112,7 @@ public class Turtle {
      * @ensure capOk : new Vecteur(_position(),position()).colineaire(cap())
      */
     public void reculer(int d) throws Exception {
-        Point _position = new Point(position);
-        Vecteur v = cap.oppose();
-        v.homothetie(d);
-        position.translation(v);
-        if (2 * Math.abs(position.abscisse()) > feuille.getWidth() ||
-                2 * Math.abs(position.ordonnee()) > feuille.getHeight()) {
-            position = _position;
-            throw new Exception("Out of screen move!");
-        } else {
-            image.translation(v);
-            if (!estLeve) {
-                feuille.add(new Segment(_position, position));
-            } else {
-                feuille.repaint();
-            }
-        }
+        avancer(-d);
     }
 
     public void allerA(int x, int y) throws Exception {
@@ -156,8 +140,8 @@ public class Turtle {
      * @ensure PositionInchange : new Vecteur(_position(),position()).module() < Vecteur.EPSILON
      */
     public void droite(int a) {
-        cap.rotation((double) -a);
-        image.rotation(-a);
+        cap.rotation((double) a);
+        image.rotation(a);
         feuille.repaint();
     }
 
@@ -168,9 +152,7 @@ public class Turtle {
      * @ensure PositionInchange : new Vecteur(_position(),position()).module() < Vecteur.EPSILON
      */
     public void gauche(int a) {
-        cap.rotation((double) a);
-        image.rotation(a);
-        feuille.repaint();
+        droite(-a);
     }
 
     public void tournerVers(int a) {
