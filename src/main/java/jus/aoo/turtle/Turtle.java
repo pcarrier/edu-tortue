@@ -103,8 +103,6 @@ public class Turtle {
                 throw new Exception("Un obstacle est sur votre route.");
             }
         }
-
-        System.out.println("Nombre d'obstacles : " + this.env.getNbObstacles());
     }
 
     /**
