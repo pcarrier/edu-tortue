@@ -1,5 +1,7 @@
 package jus.aoo.turtle;
 
+import com.sun.corba.se.spi.oa.OADefault;
+import java.util.Iterator;
 import jus.aoo.geometrie.DrawingSpace;
 import jus.aoo.geometrie.Image;
 import jus.aoo.geometrie.Segment;
@@ -114,8 +116,15 @@ public class Turtle {
 
     public void allerA(int x, int y) throws Exception {
         Point ancienne_position = new Point(position);
-        Point future_position = new Point(Point.CARTESIEN,
-                x * feuille.getWidth() / 100.0, y * feuille.getHeight() / 100.0);
+        int nx = (int) (x * feuille.getWidth() / 100.0);
+        int ny = (int) (y * feuille.getHeight() / 100.0);
+        Point future_position = new Point(Point.CARTESIEN, nx, ny);
+        for (int it = 0; it < env.getObstacles().size(); ++it) {
+            Obstacle obs = (Obstacle) env.getObstacles().get(it);
+            if (obs.cadreElargit().contains(nx,ny)) {
+                throw new Exception("Obstacle à cette position !");
+            }
+        }
         Vecteur v = new Vecteur(ancienne_position, future_position);
         position.translation(v);
         image.translation(v);
