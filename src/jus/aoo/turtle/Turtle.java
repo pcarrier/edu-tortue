@@ -36,17 +36,12 @@ public class Turtle {
     public Turtle(DrawingSpace feuille) {
         this.feuille = feuille;
         try {
-            position = new Point(Point.CARTESIEN, 0, 0);
+            position = new Point(Point.CARTESIEN, feuille.getWidth()/2, feuille.getHeight()/2);
         } catch (Require e) {
         }
         cap = new Vecteur(Vecteur.UNITE);
         estLeve = true;
         image = new Image(position, imageFile, feuille);
-        /* On r�alise des transformations sur le support de dessin pour avoir le zero au centre de l'espace
-         * l'orientation positive des ordonn�es vers le haut et le cap zero  � droite.
-         * On maintient cependant la rotation dans le sens anti-horaire */
-        feuille.addAffineTransformation(AffineTransform.getTranslateInstance(feuille.getWidth() / 2, feuille.getHeight() / 2));
-        feuille.addAffineTransformation(AffineTransform.getScaleInstance(1, -1));
         feuille.addPermanent(image);
     }
 
@@ -72,8 +67,10 @@ public class Turtle {
         Vecteur v = new Vecteur(cap);
         v.homothetie(d);
         position.translation(v);
-        if (2 * Math.abs(position.abscisse()) > feuille.getWidth() ||
-                2 * Math.abs(position.ordonnee()) > feuille.getHeight()) {
+        if (position.abscisse() < 0 ||
+                position.ordonnee() < 0 ||
+                position.abscisse() > feuille.getWidth() ||
+                position.ordonnee() > feuille.getHeight()) {
             position = _position;
             throw new Exception("Out of screen move!");
         } else {
@@ -87,6 +84,7 @@ public class Turtle {
                 }
             }
 
+
             if (!collapse) {//On avance
                 image.translation(v);
                 if (!estLeve) {
@@ -97,7 +95,6 @@ public class Turtle {
             } else {//On trouve le point le plus proche qu'on peut atteindre
                 position = _position;
                 throw new Exception("Un obstacle est sur votre route.");
-
             }
         }
 
@@ -113,22 +110,7 @@ public class Turtle {
      * @ensure capOk : new Vecteur(_position(),position()).colineaire(cap())
      */
     public void reculer(int d) throws Exception {
-        Point _position = new Point(position);
-        Vecteur v = cap.oppose();
-        v.homothetie(d);
-        position.translation(v);
-        if (2 * Math.abs(position.abscisse()) > feuille.getWidth() ||
-                2 * Math.abs(position.ordonnee()) > feuille.getHeight()) {
-            position = _position;
-            throw new Exception("Out of screen move!");
-        } else {
-            image.translation(v);
-            if (!estLeve) {
-                feuille.add(new Segment(_position, position));
-            } else {
-                feuille.repaint();
-            }
-        }
+        avancer(-d);
     }
 
     public void allerA(int x, int y) throws Exception {
@@ -156,8 +138,8 @@ public class Turtle {
      * @ensure PositionInchange : new Vecteur(_position(),position()).module() < Vecteur.EPSILON
      */
     public void droite(int a) {
-        cap.rotation((double) -a);
-        image.rotation(-a);
+        cap.rotation((double) a);
+        image.rotation(a);
         feuille.repaint();
     }
 
@@ -168,9 +150,7 @@ public class Turtle {
      * @ensure PositionInchange : new Vecteur(_position(),position()).module() < Vecteur.EPSILON
      */
     public void gauche(int a) {
-        cap.rotation((double) a);
-        image.rotation(a);
-        feuille.repaint();
+        droite(-a);
     }
 
     public void tournerVers(int a) {
