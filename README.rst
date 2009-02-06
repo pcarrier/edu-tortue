@@ -6,7 +6,7 @@ Tortue
 Projet PPO 2009 (L3 MIAGE Grenoble) de Jean-Christophe Saad-Dupuy et Geoffroy Carrier
 -------------------------------------------------------------------------------------
 
-Réponses
+Reponses
 --------
 
 Dans la solution 2, certains mouvements sont purements bloques alors que dans la solution 3, ils ne seront que partiels.
