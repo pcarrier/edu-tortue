@@ -20,7 +20,7 @@ public class Obstacle extends Figure {
     protected Point p1; // le sommet le plus petit du cadre
     protected int width,  height; // largeur  & hauteur du cadre
 
-    private static int bord=32;
+    private static int bord=64;
     /**
      * Construction d'un Obstacle
      * @param p1 l'extr�mit� d'une diagonale

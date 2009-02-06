@@ -98,9 +98,10 @@ public class Turtle {
             } else {//On trouve le point le plus proche qu'on peut atteindre
                 //position = _position;
 
-                position=this.env.getCollapsePoint(_position, position, segp1,segp2 );
+                position=this.env.getCollapsePoint(_position, position, segp1,segp2);
                 Vecteur nv = new Vecteur(_position, position);
-                throw new Exception("Un obstacle est sur votre route.");
+                image.translation(nv);
+                //throw new Exception("Un obstacle est sur votre route.");
             }
         }
     }
