@@ -58,7 +58,7 @@ public class TurtleTrip extends JApplet {
 
     /** La tortue control�e par cette interface */
     private Turtle turtle = null;
-    private ArrayList turtles;
+    private ArrayList<Turtle> turtles;
     /** les widgets */
     private JPanel jContentPane = null;
     private JPanel control = null;
@@ -596,7 +596,7 @@ public class TurtleTrip extends JApplet {
             jPanel6.add(getAbscisse(), null);
             valueAbscisse =
                     new JLabel();
-            valueAbscisse.setText("" + abscisse.getValue());
+            valueAbscisse.setText("" + abscisse.getValue() + "%");
             jPanel6.add(valueAbscisse, null);
         }
 
@@ -610,12 +610,12 @@ public class TurtleTrip extends JApplet {
     private JSlider getAbscisse() {
         if (abscisse == null) {
             abscisse = new JSlider();
-            abscisse.setMinimum(-325);
-            abscisse.setMaximum(325);
+            abscisse.setMinimum(0);
+            abscisse.setMaximum(100);
             abscisse.addChangeListener(new javax.swing.event.ChangeListener() {
 
                 public void stateChanged(javax.swing.event.ChangeEvent e) {
-                    valueAbscisse.setText("" + abscisse.getValue());
+                    valueAbscisse.setText("" + abscisse.getValue() + "%");
                 }
             });
         }
@@ -637,7 +637,7 @@ public class TurtleTrip extends JApplet {
             jPanel7.add(getOrdonnee(), null);
             valueOrdonnee =
                     new JLabel();
-            valueOrdonnee.setText("" + ordonnee.getValue());
+            valueOrdonnee.setText("" + ordonnee.getValue() + "%");
             jPanel7.add(valueOrdonnee, null);
         }
 
@@ -651,12 +651,12 @@ public class TurtleTrip extends JApplet {
     private JSlider getOrdonnee() {
         if (ordonnee == null) {
             ordonnee = new JSlider();
-            ordonnee.setMinimum(-200);
-            ordonnee.setMaximum(200);
+            ordonnee.setMinimum(0);
+            ordonnee.setMaximum(100);
             ordonnee.addChangeListener(new javax.swing.event.ChangeListener() {
 
                 public void stateChanged(javax.swing.event.ChangeEvent e) {
-                    valueOrdonnee.setText("" + ordonnee.getValue());
+                    valueOrdonnee.setText("" + ordonnee.getValue() + "%");
                 }
             });
         }
