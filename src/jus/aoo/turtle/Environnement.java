@@ -14,7 +14,7 @@ import jus.util.geometrie.Point;
  */
 public class Environnement {
 
-    public static int nbMaxObstacle = 2;
+    public static int nbMaxObstacle = 10;
     private ArrayList<Obstacle> obstacles;
 
     public Environnement() {
@@ -45,7 +45,11 @@ public class Environnement {
     int i;
     boolean ret=false;
     
-        if(this.mayCollapse(p1, p2, obs.sommetElargit(0),obs.sommetElargit(1))){
+        if(this.mayCollapse(p1, p2, obs.sommetElargit(0),obs.sommetElargit(1))
+        || this.mayCollapse(p1, p2, obs.sommetElargit(0),obs.sommetElargit(3))
+        || this.mayCollapse(p1, p2, obs.sommetElargit(1),obs.sommetElargit(2))
+        || this.mayCollapse(p1, p2, obs.sommetElargit(2),obs.sommetElargit(3))
+        ){
             if (this._hasCollision(obs, p2)){
                 ret=true;
             }
@@ -68,6 +72,7 @@ public class Environnement {
 
         if (denominator != 0) //not parallels
         {
+            /*
             System.out.println("NextPos x :" + p2.abscisse());
             System.out.println("NextPos y :" + p2.ordonnee());
 
@@ -77,7 +82,7 @@ public class Environnement {
             System.out.println("ua :" + uaNominator / denominator);
             System.out.println("ub :" + ubNominator / denominator);
             System.out.println("denominator :" + denominator);
-
+            */
             return (checkUxRange(ub) && checkUxRange(ua));
         }
         return false;

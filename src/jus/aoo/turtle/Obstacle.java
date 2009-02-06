@@ -159,7 +159,7 @@ public class Obstacle extends Figure {
                 return new Point(Point.CARTESIEN, (int) p1.abscisse() + width +16, (int) p1.ordonnee() + height+16);
             }
             default: {
-                return new Point(Point.CARTESIEN, (int) p1.abscisse()-16, (int) p1.ordonnee() + height+16);
+                return new Point(Point.CARTESIEN, (int) p1.abscisse()+16, (int) p1.ordonnee() + height+16);
             }
         }
     }

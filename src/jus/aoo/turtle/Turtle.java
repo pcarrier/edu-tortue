@@ -81,7 +81,6 @@ public class Turtle {
                 }
             }
 
-
             if (!collapse) {//On avance
                 image.translation(v);
                 if (!estLeve) {
@@ -91,6 +90,8 @@ public class Turtle {
                 }
             } else {//On trouve le point le plus proche qu'on peut atteindre
                 position = _position;
+
+
                 throw new Exception("Un obstacle est sur votre route.");
             }
         }
