@@ -2,6 +2,7 @@ package jus.aoo.turtle;
 
 import java.awt.geom.AffineTransform;
 
+import javax.swing.text.Position;
 import jus.aoo.geometrie.DrawingSpace;
 import jus.aoo.geometrie.Image;
 import jus.aoo.geometrie.Segment;
@@ -77,13 +78,25 @@ public class Turtle {
             position = _position;
             throw new Exception("Out of screen move!");
         } else {
+            int i;
+            boolean collapse=false;
+            
+            for(i=0; i<this.env.getObstacles().size();i++){
+                if(!this.env.hasCollision((Obstacle)this.env.getObstacles().get(i), _position, position))
+                {
+                    collapse=true;
 
-            if (!this.env.hasCollision(_position, position))
+                    break;
+                }
+            }
+
+            if (!collapse)
             {
                 image.translation(v);
             }else{
+                
                 position = _position;
-                throw new Exception("OOOBstaaaaaaaacle !!");
+                throw new Exception("Un obstacle est sur votre route.");
             }
             
             if (!estLeve) {

@@ -5,10 +5,8 @@
 package jus.aoo.turtle;
 
 import java.util.ArrayList;
-import javax.swing.text.Segment;
-import jus.aoo.geometrie.Figure;
 import jus.util.geometrie.Point;
-import jus.util.geometrie.Vecteur;
+
 
 /**
  *
@@ -43,32 +41,28 @@ public class Environnement {
         return this.obstacles;
     }
 
-    public boolean hasCollision(Point p1, Point p2) {
+    public boolean hasCollision(Obstacle obs,Point p1, Point p2) {
     int i;
     boolean ret=false;
-    for (i=0; i<this.obstacles.size();i++){
-        if(this._hasCollision(p1, p2, this.obstacles.get(i))){
-            ret=true;
-        }
-        System.out.println("Collision sobject "+i+" : "+ret);
-        
+    
+        if(this.mayCollapse(p1, p2, obs.sommetElargit(0),obs.sommetElargit(1))){
+            if (this._hasCollision(obs, p2)){
+                ret=true;
+            }
     }
 
     return ret;
     }
 
-    private boolean _hasCollision(Point p1, Point p2, Obstacle obs) {
-        Point p3 = obs.sommet(0);
-        Point p4 = obs.sommet(1);
+    void getCoordonneeMax(Object obs, int d) {
+       
+    }
 
-
+    // Can the line from p1 to p2 cross p3 to p4 ?
+    private boolean mayCollapse(Point p1, Point p2, Point p3,Point p4) {
         double uaNominator = (p4.abscisse() - p3.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p4.ordonnee() - p3.ordonnee()) * (p1.abscisse() - p3.abscisse());
-        double ubNominator = (p2.abscisse() - p1.abscisse()) *
-                (p1.ordonnee() - p3.ordonnee()) - (p2.ordonnee() - p1.ordonnee()) * (p1.abscisse() - p3.abscisse());
-
-
+        double ubNominator = (p2.abscisse() - p1.abscisse()) * (p1.ordonnee() - p3.ordonnee()) - (p2.ordonnee() - p1.ordonnee()) * (p1.abscisse() - p3.abscisse());
         double denominator = ((p4.ordonnee() - p3.ordonnee()) * (p2.abscisse() - p1.abscisse())) - ((p4.abscisse() - p3.abscisse()) * (p2.ordonnee() - p1.ordonnee()));
-
         double ua = uaNominator / denominator;
         double ub = uaNominator / denominator;
 
@@ -84,18 +78,14 @@ public class Environnement {
             System.out.println("ub :" + ubNominator / denominator);
             System.out.println("denominator :" + denominator);
 
-            if (checkUxRange(ub) && checkUxRange(ua)) {
-
-                double x=p1.abscisse()+ua*(p2.abscisse()-p1.abscisse());
-                double y=p1.ordonnee()+ua*(p2.ordonnee()-p1.ordonnee());
-                if(obs.cadre().contains(x,y)){
-                    System.out.println("Coolision!");
-                    return true;
-                }
-
-            }
+            return (checkUxRange(ub) && checkUxRange(ua));
         }
         return false;
+    }
+
+    //Is the point in the large cadre ?
+    private boolean _hasCollision(Obstacle obs, Point p){
+        return obs.cadreElargit().contains(p.abscisse(), p.ordonnee());
     }
     
     private boolean checkUxRange(double ux) {

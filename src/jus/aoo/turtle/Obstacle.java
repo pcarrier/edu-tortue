@@ -143,5 +143,25 @@ public class Obstacle extends Figure {
         return new java.awt.Rectangle((int) p1.abscisse(), (int) p1.ordonnee(), width, height);
     }
 
+    public java.awt.Rectangle cadreElargit() {
+        return new java.awt.Rectangle((int) p1.abscisse() -16, (int) p1.ordonnee()-16, width+16, height+16);
+    }
+
+    public Point sommetElargit(int num) {
+        switch (num) {
+            case 0: {
+                return new Point(Point.CARTESIEN, (int) p1.abscisse()-16, (int) p1.ordonnee()-16);
+            }
+            case 1: {
+                return new Point(Point.CARTESIEN, (int) p1.abscisse() + width+16, (int) p1.ordonnee()-16);
+            }
+            case 2: {
+                return new Point(Point.CARTESIEN, (int) p1.abscisse() + width +16, (int) p1.ordonnee() + height+16);
+            }
+            default: {
+                return new Point(Point.CARTESIEN, (int) p1.abscisse()-16, (int) p1.ordonnee() + height+16);
+            }
+        }
+    }
     
 }
