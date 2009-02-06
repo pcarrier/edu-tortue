@@ -58,7 +58,7 @@ public class TurtleTrip extends JApplet {
 
     /** La tortue control�e par cette interface */
     private Turtle turtle = null;
-    private ArrayList turtles;
+    private ArrayList<Turtle> turtles;
     /** les widgets */
     private JPanel jContentPane = null;
     private JPanel control = null;
