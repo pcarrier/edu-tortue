@@ -20,7 +20,7 @@ import jus.util.assertion.*;
  */
 public class Turtle {
 
-    protected Environnement env=new Environnement(); //Environnement des instances de tortues (obstacles, ...)
+    protected Environnement env = new Environnement(); //Environnement des instances de tortues (obstacles, ...)
     protected DrawingSpace feuille; // l'espace de d�placement de la tortue
     protected static final String imageFile = "/jus/aoo/turtle/Turtle.gif"; //le nom de l'image mat�rialisant la tortue.
     protected Image image;			//l'image de la tortue
@@ -52,14 +52,13 @@ public class Turtle {
 
     public Turtle(DrawingSpace feuille, Environnement env) {
         this(feuille);
-        this.env=env;
+        this.env = env;
     }
 
-    
-    public Environnement getEnvironnement(){
+    public Environnement getEnvironnement() {
         return this.env;
     }
-    
+
     /**
      * Fait avancer la tortue de d pas
      * @param d la distance � parcourir
@@ -79,34 +78,30 @@ public class Turtle {
             throw new Exception("Out of screen move!");
         } else {
             int i;
-            boolean collapse=false;
-            
-            for(i=0; i<this.env.getObstacles().size();i++){
-                if(!this.env.hasCollision((Obstacle)this.env.getObstacles().get(i), _position, position))
-                {
-                    collapse=true;
+            boolean collapse = false;
 
+            for (i = 0; i < this.env.getObstacles().size(); i++) {
+                if (this.env.hasCollision((Obstacle) this.env.getObstacles().get(i), _position, position)) {
+                    collapse = true;
                     break;
                 }
             }
 
-            if (!collapse)
-            {
+            if (!collapse) {//On avance
                 image.translation(v);
-            }else{
-                
+                if (!estLeve) {
+                    feuille.add(new Segment(_position, position));
+                } else {
+                    feuille.repaint();
+                }
+            } else {//On trouve le point le plus proche qu'on peut atteindre
                 position = _position;
                 throw new Exception("Un obstacle est sur votre route.");
-            }
-            
-            if (!estLeve) {
-                feuille.add(new Segment(_position, position));
-            } else {
-                feuille.repaint();
+
             }
         }
 
-        System.out.println("Nombre d'obstacles : "+this.env.getNbObstacles());
+        System.out.println("Nombre d'obstacles : " + this.env.getNbObstacles());
     }
 
     /**
