@@ -80,8 +80,7 @@ public class Turtle {
                         env.getSegCollapse(obs, nouvelle_position, ancienne_position)[0],
                         env.getSegCollapse(obs, nouvelle_position, ancienne_position)[1]);
                 Vecteur nv = new Vecteur(ancienne_position, position_intermediaire);
-                System.out.println("Avancee limitee a "+nv.module());
-                avancer((int) nv.module() - 1);
+                avancer((d > 0 ? 1 : -1) * ((int) nv.module() - 1));
                 return;
             }
         }
@@ -118,6 +117,7 @@ public class Turtle {
             if (obs.cadreElargi().contains(nx, ny)) {
                 throw new Exception("Obstacle à cette position !");
             }
+
         }
         Vecteur v = new Vecteur(ancienne_position, future_position);
         position.translation(v);
